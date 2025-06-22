@@ -24,6 +24,7 @@ container_client = blob_service_client.get_container_client(AZURE_CONTAINER_NAME
 
 @doctor_bp.route('/register-doctor', methods=['POST'])
 def register_doctor():
+    print("in here")
     data = request.form
     file = request.files.get('doctor_picture')
 
@@ -43,9 +44,13 @@ def register_doctor():
     hashed_password = bcrypt.hashpw(data.get('password').encode('utf-8'), bcrypt.gensalt())
 
     doctor_picture_url = None
+    print("File")
     if file:
+        print("IT DOES")
         try:
+            print("we here")
             filename = f"doctor_{uuid.uuid4().hex}_{secure_filename(file.filename)}"
+            print(filename)
             blob_client = container_client.get_blob_client(filename)
 
             blob_client.upload_blob(
@@ -54,7 +59,7 @@ def register_doctor():
             )
 
             # Public URL (depends if your container is public, otherwise you'll need to generate SAS token)
-            doctor_picture_url = f"https://{blob_service_client.account_name}.blob.core.windows.net/{AZURE_CONTAINER_NAME}/{filename}"
+            doctor_picture_url = f"https://dppimages.blob.core.windows.net/{AZURE_CONTAINER_NAME}/{filename}"
 
         except Exception as e:
             return jsonify({"error": f"Failed to upload image: {str(e)}"}), 400
