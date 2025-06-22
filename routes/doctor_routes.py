@@ -24,7 +24,6 @@ container_client = blob_service_client.get_container_client(AZURE_CONTAINER_NAME
 
 @doctor_bp.route('/register-doctor', methods=['POST'])
 def register_doctor():
-    print("in here")
     data = request.form
     file = request.files.get('doctor_picture')
 
