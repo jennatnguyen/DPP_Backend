@@ -14,6 +14,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
+          AZURE_CONNECTION_STRING: "DefaultEndpointsProtocol=https;AccountName=dummy;AccountKey=dummy;EndpointSuffix=core.windows.net"
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: test_db
           MYSQL_USER: test_user
